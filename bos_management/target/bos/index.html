@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="jquery-1.8.3.js"></script>
+		<script src="easyui/jquery.easyui.min.js"></script>
+		<script src="easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script src="ztree/jquery.ztree.all-3.5.js"></script>
+		<link rel="stylesheet" type="text/css" href="ztree/zTreeStyle.css"/>
+		<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css"/>
+		<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css"/>
+		<link rel="stylesheet" type="text/css" href="ztree/zTreeStyle.css"/>
+		<script type="text/javascript">
+			//点击链接添加到选项卡
+			$(document).ready(function() {
+				//选项卡添加面板
+				$("#chuanzhi").click(function(){
+					var flag = $("#tabs").tabs("exists","传智播客");	//判断传智播客面板是否存在
+					if (flag) {
+						//说明面板存在
+						$("#tabs").tabs("select","传智播客");
+					} else{
+						//说明传智播客不存在
+						$("#tabs").tabs("add",{
+							title:"传智播客",
+							content:"传智播客是一家专注于it教育的公司",
+							closable:true,
+							tools:[{iconCls:"icon-mini-refresh"}]
+						});	//注意此处要添加面板，所以应该携带有面板的详细信息
+					}
+				})
+				//给选项卡上添加快捷菜单
+				$("#tabs").tabs({
+					onContextMenu:function(event,title,index) {
+						event.preventDefault();
+						$("#menu").menu("show",{
+							left:event.pageX,
+							top:event.pageY
+						})
+					}
+				})
+				//点击快捷菜单上的退出按钮时退出当前选项卡
+                $("#exit").click(function() {
+                    var current = $("#tabs").tabs("getSelected");		//	拿到当前选中的选项卡
+                    var index = $("#tabs").tabs("getTabIndex",current);
+                    $("#tabs").tabs("close",index);
+                })
+				
+				//以下是ztree相关的配置和初始化
+				var setting = {
+					data:{
+						simpleData: {enable:true}	//支持简单json数据格式
+					},
+					callback:{
+						onClick:function(event,treeId,treeNode,clickFlag){
+                            var content = '<div style="width:100%;height:100%;overflow:hidden;">'
+                                + '<iframe src="'
+                                + treeNode.page
+                                + '" scrolling="auto" style="width:100%;height:100%;border:0;" ></iframe></div>';
+							if (treeNode.page != undefined && treeNode.page != "") {
+								if ($("#tabs").tabs("exists",treeNode.name)) {
+									$("#tabs").tabs("select",treeNode.name);
+								} else{
+									$("#tabs").tabs("add",{
+										title:treeNode.name,
+										content:content,
+										closable:true,
+										tools:[{iconCls:"icon-reload"}]
+									})
+								}
+							}
+						}
+					}
+				};
+				//设置ztree结构
+				var baseFunctionTreeNodes = [
+                    { "id":"11", "pId":"0", "name":"基础数据"},
+                    { "id":"111", "pId":"11", "name":"基础档案设置",  page:"pages/base/archives.html"},
+                    { "id":"112", "pId":"11", "name":"收派标准",  page:"pages/base/standard.html"},
+                    { "id":"113", "pId":"11", "name":"班车管理",  page:"pages/base/vehicle.html"},
+                    { "id":"114", "pId":"11", "name":"快递员设置/替班",  page:"pages/base/courier.html"},
+                    { "id":"115", "pId":"11", "name":"区域设置",page:"pages/base/area.html"},
+                    { "id":"116", "pId":"11", "name":"管理分区", page:"pages/base/sub_area.html"},
+                    { "id":"117", "pId":"11", "name":"管理定区/调度排班",page:"pages/base/fixed_area.html"},
+                    { "id":"118", "pId":"11", "name":"收派时间管理",page:"pages/base/take_time.html"},
+                    { "id":"12", "pId":"0", "name":"受理"},
+                    { "id":"121", "pId":"12", "name":"业务受理" ,page:"pages/take_delivery/order.html"},
+                    { "id":"122", "pId":"12", "name":"运单快速录入" ,page:"pages/take_delivery/waybill_quick.html"},
+                    { "id":"123", "pId":"12", "name":"运单录入" ,page:"pages/take_delivery/waybill.html"},
+                    { "id":"124", "pId":"12", "name":"运单导入" ,page:"pages/take_delivery/waybill_import.html"},
+                    { "id":"125", "pId":"12", "name":"运单管理" ,page:"pages/take_delivery/waybill_manage.html"},
+                    { "id":"126", "pId":"12", "name":"异调运单" ,page:"pages/take_delivery/different_waybill.html"},
+                    { "id":"127", "pId":"12", "name":"运单打印" ,page:"pages/take_delivery/waybill_print.html"},
+                    { "id":"13", "pId":"0", "name":"调度"},
+                    { "id":"131", "pId":"13", "name":"查台转单",page:"pages/take_delivery/change_work_order.html"},
+                    { "id":"132", "pId":"13", "name":"人工调度",page:"pages/take_delivery/dispatcher.html"},
+                    { "id":"133", "pId":"13", "name":"取派调度监控",page:"pages/take_delivery/dispatcher_monitor.html"},
+                    { "id":"134", "pId":"13", "name":"签收录入",page:"pages/take_delivery/sign_input.html"},
+                    { "id":"135", "pId":"13", "name":"取消签收申请",page:"pages/take_delivery/sign_cancel.html"},
+                    { "id":"136", "pId":"13", "name":"宣传任务",page:"pages/take_delivery/promotion.html"},
+                    { "id":"14", "pId":"0", "name":"分拣管理"},
+                    { "id":"141", "pId":"14", "name":"入库",page:"pages/transit/in_storage.html"},
+                    { "id":"142", "pId":"14", "name":"出库",page:"pages/transit/out_storage.html"},
+                    { "id":"143", "pId":"14", "name":"盘库",page:"pages/transit/make_storage.html"},
+                    { "id":"144", "pId":"14", "name":"合包",page:"pages/transit/compose_package.html"},
+                    { "id":"145", "pId":"14", "name":"到达时间录入",page:"pages/transit/arrive_time.html"},
+                    { "id":"146", "pId":"14", "name":"出入库查询",page:"pages/transit/in_out_search.html"},
+                    { "id":"147", "pId":"14", "name":"库存查询",page:"pages/transit/remain_search.html"},
+                    { "id":"148", "pId":"14", "name":"合包查询",page:"pages/transit/package_search.html"}
+                ];
+				//初始化ztree结构。
+				$.fn.zTree.init($("#baseFunction"),setting,baseFunctionTreeNodes);
+				//各种警告框
+				/*$.messager.alert("警告框","请注意您的操作方法？","warning");
+				$.messager.confirm("确认框","请确认：",function(isConfirm) {
+					if (isConfirm) {
+						console.log(isConfirm)
+					}
+				})
+				$.messager.prompt("输入框","请输入您的年龄",function(information){
+					alert(information);
+				})*/
+				$.messager.show({
+					title:"提示框",
+					msg:"已经上新，请速速前去抢购！<a href ='http://www.baidu.com'>猛戳这里</a>",
+					timeout:5000
+				});
+				//点击收派标准弹框
+
+			})
+		</script>
+	</head>
+	<body class="easyui-layout">
+		<div data-options="region:'east'" style="width: 0px;"></div>
+		<div data-options="region:'west',split:true,title:'菜单导航'" style="width: 180px;">
+			<div class="easyui-accordion" fit="true" border="false">
+				<div data-options="title:'基本功能',iconCls:'icon-mini-add'" style="overflow: auto;">
+					<ul class="ztree" id="baseFunction"></ul>
+				</div>
+				<div data-options="title:'系统管理',iconCls:'icon-mini-add'" style="overflow: auto;">
+					<ul class="ztree" id="systemManage"></ul>
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'south'" style="height: 60px;">
+			<div style="padding: 10px;">
+				<span style="color: #999999;">BOSv2.0综合物流管理平台 | Powered by <a href="" style="color: blue;">传智播客</a></span>
+				<img src="img/online.png" style="margin-left: 40px;" />
+				<span>在线人数</span>
+			</div>
+		</div>
+		<div data-options="region:'north'" style="height: 70px;padding: 10px;overflow: hidden;">
+			<div style="float: left;">
+				<img src="img/logo.png" border="0"/>
+			</div>
+			<div style="float: right;text-align: right;">
+				<p style="margin: 0px;"><span style="font-weight: bold;">【超级管理员】</span>欢迎你，您使用<span style="font-weight: bold;">192.168.0.1</span>IP登录！</p>
+				<div>
+					<a href="javascript:void(0)" class="easyui-menubutton" data-options="menu:'#changeSkin',iconCls:'icon-ok'">更换皮肤</a>
+					<a href="javascript:void(0)" class="easyui-menubutton" data-options="menu:'#controlPanel',iconCls:'icon-help'">控制面板</a>
+				</div>
+			</div>
+			<div id="changeSkin" style="width: 120px;display: none;">
+				<div onclick="changeTheme('default')">默认皮肤</div>
+				<div onclick="changeTheme('gray')">灰色空间</div>
+				<div onclick="changeTheme('black')">气质黑色</div>
+				<div onclick="changeTheme('bootstrap')">自适应模式</div>
+				<div onclick="changeTheme('metro')">metro</div>
+			</div>
+			<div id="controlPanel" style="width: 120px;display: none;">
+				<div onclick="editPassword()">修改密码</div>
+				<div onclick="showAbout()">联系管理员</div>
+				<div onclick="logOutFun()">退出系统</div>
+			</div>
+		</div>
+		<div data-options="region:'center'">
+			<div class="easyui-tabs" fit="true" border="false" id="tabs">
+				<div title="消息中心" style="width: 100%;height: 100%;overflow: hidden;" data-options="closable:'true'">
+					<iframe src="message.html" width="100%" height="100%" border="0"></iframe>
+				</div>
+				<!--<div title="订单管理" fit="true" border="false" data-options="closable:'true'">-->
+				<!--<iframe src="http://www.yahu.com" width="100%" height="100%" border="0"></iframe>-->
+				<!--</div>-->
+			</div>			
+		</div>
+		<!--快捷菜单-->
+		<!--<div class="easyui-menu" id="menu" style="width: 120px;">-->
+			<!--<div>New</div>-->
+			<!--<div>-->
+				<!--<strong>open</strong>-->
+				<!--<div style="width: 120px;">-->
+					<!--<div>subMenu1</div>-->
+					<!--<div>subMenu2</div>-->
+					<!--<div>subMenu3</div>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div id="exit">Exit</div>-->
+		<!--</div>-->
+		<!--选项卡部分的快捷菜单-->
+		<div class="easyui-menu" id="menu" style="width:120px">
+			<div data-options="name:'close'">关闭当前窗口</div>
+			<div data-options="name:'closeOthers'">关闭其他窗口</div>
+			<div class="menu-sep"></div>
+			<div data-options="iconCls:'icon-cancel',name:'closeAll'">关闭所有窗口</div>
+		</div>
+	</body>
+</html>

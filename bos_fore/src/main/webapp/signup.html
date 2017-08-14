@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我的速运-注册</title>
+
+    <link rel="stylesheet" type="text/css" href="css/styleloginsign.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/self/effect.js"></script>
+    <script src="js/angular.min.js" type="text/javascript"></script>
+    <script src="js/angular-route.min.js" type="text/javascript"></script>
+
+    <!--[if IE]>
+    <script type="text/javascript" src="js/html5.js"></script>
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+    <!--<script type="text/javascript">
+        $(document).ready(function () {
+            //发送验证码
+            var flag = false;
+            var time = 60;
+            $("#getIdentifyCode").click(function () {
+                if (!flag) {
+                    flag = true;
+                    var timer = null;
+                    timer = setInterval(function () {
+                        if (time == 0) {
+                            $("#getIdentifyCode").html("重新发送");
+                            flag = false;
+                        }else {
+                            time -= 1;
+                            $("#getIdentifyCode").html(time + "秒后重发");
+                        }
+                    }, 1000)
+                }
+            })
+        })
+    </script>-->
+    <script type="text/javascript">
+        var app = angular.module("app", []);
+        app.controller("controller", ["$scope", "$http", function ($scope, $http) {
+            var flag = false;
+            var time = 5;
+            var timer = null;
+            $scope.getIdentifyCode = function (telephone) {
+                var regexp = /^1(3|5|8|7)\d{9}$/;
+                if (regexp.test(telephone)) {
+                    //校验通过
+                    $http({
+                        method: "get",
+                        url: "sendMessage",
+                        params: {"telephone":telephone}
+                    }).error(function (data, status, headers, config) {
+                        if (data == "0") {
+                            alert("验证码发送失败！");
+                        }
+                    });
+                } else {
+                    alert("手机号不合法！");
+                    return;
+                }
+                if (!flag) {
+                    //向第三方平台发送消息进行发短信操作
+
+                    flag = true;
+                    timer = setInterval(function () {
+                        if (time == 0) {
+                            $("#getIdentifyCode").html("重新发送");
+                            flag = false;
+                            time = 5;
+                            clearInterval(timer);
+                        } else {
+                            $("#getIdentifyCode").html(time + "秒后重发");
+                            time -= 1;
+                        }
+                    }, 1000)
+                } else {
+                    return;
+                }
+            }
+        }])
+    </script>
+</head>
+<body ng-app="app">
+<!--head-->
+<div class="loginnav">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="images/icon/logo.png"></a>
+                <span class="logintitle">用户注册</span>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <!--mainsignup-->
+    <section class="mainsign">
+        <div class="headnav">
+        </div>
+        <div class="signup">
+            <div class="col-md-9 signupbox">
+                <form class="form col-md-6" action="./regist" method="post">
+                    <div class=" form-group">
+                        <label for="telephone" class="col-sm-3 control-label"><b>*</b>手机号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="telephone" placeholder="请输入手机号"
+                                   ng-model="telephone" name="telephone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="indentifyCode" class="col-sm-3 control-label"><b>*</b>验证码</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="indentifyCode" placeholder="请输入验证码" name="identifyCode">
+                        </div>
+                        <div class="col-sm-3 song" ng-controller="controller">
+                            <a class="btn btn-default" id="getIdentifyCode" href="javascript:void(0)"
+                               ng-click="getIdentifyCode(telephone)">获取验证码</a>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label"><b>*</b>密码</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="password" placeholder="6-16位数字或英文字母" name="password">
+                            <p class="text-right grey">安全强度：*****</p>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="repassword" class="col-sm-3 control-label"><b>*</b>确认密码</label>
+                        <div class="col-sm-8">
+                        <input type="password" class="form-control" id="repassword" placeholder="6-16位数字或英文字母" name="repassword">
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputemail" class="col-sm-3 control-label"><b>*</b>绑定邮箱</label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="inputemail" placeholder="请输入需要绑定的邮箱" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-8 song">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="agree"> 查看并同意<a href="#"> 《速运快递服务协议》</a>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group signbtn">
+                        <div class="col-sm-offset-3 col-sm-8 song">
+                            <input type="submit" value="注册" class="btn btn-danger" />
+                        </div>
+                    </div>
+
+
+                </form>
+
+
+            </div>
+            <div class="col-md-3 introbox">
+                <div class="signintro">
+                    <h5 class="redtext">注册成为速运会员，您可以享受更多的服务！</h5>
+                    <ul>
+                        <li class="list-group">积分奖励，电子运单专享特权</li>
+                        <li class="list-group">快速理赔，保价优惠</li>
+                        <li class="list-group">大陆偏远地区附加费减免</li>
+                        <li class="list-group">快件路由订阅，快件信息管理，批量下单</li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!--foot-->
+<footer>
+    <section class="copyright size12">
+        <div class="container">
+            <p class="text-center">地址：北京市昌平区建材城西路金燕龙办公楼一层 邮编：100096 电话：400-618-4000 传真：010-82935100 </p>
+            <p class="text-center">京ICP备08001421号京公网安备110108007702</p>
+        </div>
+    </section>
+</footer>
+</body>
+</html>
