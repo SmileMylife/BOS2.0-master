@@ -66,5 +66,6 @@
     <!--导入webservice相关的配置文件-->
     <import resource="applicationContext-webService.xml" />
     <import resource="applicationContext-quartz.xml" />
+    <!--<import resource="applicationContext-elasticsearch.xml" />-->
     <import resource="applicationContext-shiro.xml" />
 </beans>

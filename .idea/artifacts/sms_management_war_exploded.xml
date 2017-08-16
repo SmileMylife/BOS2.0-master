@@ -18,22 +18,22 @@
           <element id="library" level="project" name="Maven: com.google.inject:guice:3.0" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: com.google.inject.extensions:guice-multibindings:3.0" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.1.7.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.8.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jms:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-messaging:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-test:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.1.7.RELEASE" />
-          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.6" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jms:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-messaging:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-test:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.2.8.RELEASE" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.9" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-jpa:1.9.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:1.11.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.6" />
